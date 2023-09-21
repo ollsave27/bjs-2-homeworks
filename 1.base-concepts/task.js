@@ -11,10 +11,8 @@ function solveEquation(a, b, c) {
   } else if (d === 0) {
     const root = -b / (2 * a);
     arr.push(root);
-  } else if (d < 0) {
-    return arr;
   }
-
+  
   return arr;
 }
 
@@ -22,15 +20,6 @@ const roots = solveEquation(4, -5, 1);
 console.log(roots);
 
 function calculateTotalMortgage(percent, contribution, amount, countMonths) {
-
-  if (
-    typeof percent !== "number" ||
-    typeof contribution !== "number" ||
-    typeof amount !== "number" ||
-    typeof countMonths !== "number"
-  ) {
-    return false;
-  }
 
   const monthlyInterestRate = percent / 100 / 12;
 
