@@ -1,162 +1,85 @@
+//1 задание
 function getArrayParams(...arr) {
-
 	let min = Infinity;
 	let max = -Infinity;
 	let sum = 0;
 	let avg = 0;
-
-
-	for (i = 0; i < arr.length; i++) {
-
-		if (arr[i] !== undefined) {
-
-			if (max < arr[i]) {
-				max = arr[i];
-			}
-
-			if (min > arr[i]) {
-				min = arr[i];
-			}
-
-			if (typeof arr[i] === "number" && arr[i] !== NaN) {
-				sum += arr[i];
-			}
-
-			avg = sum / arr.length;
-
-		} else {
-			return 0;
+	for (let i = 0; i < arr.length; i++) {
+		sum = sum + arr[i];
+		if (arr[i] > max) {
+			max = arr[i];
+		}
+		if (arr[i] < min) {
+			min = arr[i];
 		}
 	}
-
+	avg = parseFloat((sum / arr.length).toFixed(2));
 	return {
 		min: min,
 		max: max,
-		avg: Number(avg.toFixed(2))
+		avg: avg
 	};
-
 }
 
-getArrayParams(10, 10, 11, 20, 10);
 
-
+// 2 задание
 
 function summElementsWorker(...arr) {
 
-	let sum = 0;
+	const sumOfNumbers = arr.reduce((acc, number) => acc + number, 0);
 
-	for (i = 0; i < arr.length; i++) {
-
-		if (arr[i] !== undefined) {
-
-			if (i != -1) {
-				sum += arr[i];
-			}
-
-		} else {
-			return 0;
-		}
-
-	}
-
-	return sum;
-
+	return sumOfNumbers;
 }
-
-summElementsWorker(10, 10, 11, 20, 10);
-
 
 function differenceMaxMinWorker(...arr) {
 
 	let min = Infinity;
 	let max = -Infinity;
 
-	for (i = 0; i < arr.length; i++) {
 
-		if (arr !== undefined) {
+	if (arr.length === 0) return 0;
 
-			if (max < arr[i]) {
-				max = arr[i];
-			}
-
-			if (min > arr[i]) {
-				min = arr[i];
-			}
-		} else {
-			return 0;
-		}
+	for (let i = 0; i < arr.length; i++) {
+		if (min > arr[i]) min = arr[i];
+		if (max < arr[i]) max = arr[i];
 	}
 
-	let difference = max - min;
-
-	if (difference === -Infinity) {
-		return 0;
-	} else {
-		return difference;
-	}
+	return max - min;
 }
 
-differenceMaxMinWorker(10, 5, 16, 13, 25);
-
-
 function differenceEvenOddWorker(...arr) {
+	let sumEvenElement = 0;
+	let sumOddElement = 0;
 
-	sumEvenElement = 0;
-	sumOddElement = 0;
 
-	for (i = 0; i < arr.length; i++) {
+	if (arr.length === 0) return 0;
 
-		if (arr[i] !== undefined) {
-
-			if (arr[i] % 2 == 0) {
-				sumEvenElement += arr[i];
-			} else {
-				sumOddElement += arr[i];
-			}
-		} else {
-			return 0;
-		}
+	for (let i = 0; i < arr.length; i++) {
+		if ((arr[i] % 2) === 0) sumEvenElement += arr[i];
+		else sumOddElement += arr[i];
 	}
 
 	return sumEvenElement - sumOddElement;
-
 }
 
-differenceEvenOddWorker(61, 206, 328, 284);
-
-
 function averageEvenElementsWorker(...arr) {
+	let sumEvenElement = 0;
+	let countEvenElement = 0;
 
-	sumEvenElement = 0;
-	countEvenElement = 0;
 
-	for (i = 0; i < arr.length; i++) {
+	if (arr.length === 0) return 0;
 
-		if (arr[i] !== undefined) {
-
-			if (arr[i] % 2 == 0) {
-				sumEvenElement += arr[i];
-				countEvenElement++;
-			}
-		} else {
-			return 0;
+	for (let i = 0; i < arr.length; i++) {
+		if ((arr[i] % 2) === 0) {
+			sumEvenElement += arr[i];
+			countEvenElement++;
 		}
 	}
 
-	if (sumEvenElement !== countEvenElement) {
-
-		return sumEvenElement / countEvenElement;
-
-	} else {
-
-		return 0;
-
-	}
-
+	return sumEvenElement / countEvenElement;
 }
 
-averageEvenElementsWorker(1, 5, 6, 8);
-
+// 3 задание 
 
 const arr = [
 	[10, 10, 11, 20, 10],
@@ -165,24 +88,23 @@ const arr = [
 	[30, 41, 55, 96, 62]
 ];
 
+
 function makeWork(arrOfArr, func) {
+	let maxWorkerResult = -Infinity;
+	let res;
+	let numbers;
 
-	let maxWorkerResult;
-	let array = [];
-	let maxOfTheMax = [];
+	if (arrOfArr.length === 0) return 0;
 
-	for (let a = 0; a < arrOfArr.length; a++) {
-
-		maxWorkerResult = arrOfArr[a];
-		array.push(maxWorkerResult);
-		maxOfTheMax.push(func(...maxWorkerResult));
-
+	for (let i = 0; i < arrOfArr.length; i++) {
+		numbers = arrOfArr[i];
+		res = func(...numbers);
+		if (res > maxWorkerResult) maxWorkerResult = res;
 	}
 
-	const max = maxOfTheMax.reduce((a, b) => Math.max(a, b), -Infinity);
-	return (max);
-
+	return maxWorkerResult;
 }
+
 console.log(makeWork(arr, summElementsWorker)); // максимум из 61, 206, 328, 284 => 328
 console.log(makeWork(arr, differenceMaxMinWorker)); // максимум из 10, 86, 44, 66 => 86
 console.log(makeWork(arr, differenceEvenOddWorker)); // максимум из 39, -6, -184, 92 => 92
